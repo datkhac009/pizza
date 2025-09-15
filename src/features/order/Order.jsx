@@ -4,7 +4,7 @@ import {
   calcMinutesLeft,
   formatCurrency,
   formatDate,
-} from "../../utils/helpers";
+} from "../utils/helpers";
 
 const order = {
   id: "ABCDEF",
@@ -61,7 +61,7 @@ function Order() {
 
         <div>
           {priority && <span>Priority</span>}
-          <span>{status} order</span>
+                    <span>{status} order</span>
         </div>
       </div>
 
