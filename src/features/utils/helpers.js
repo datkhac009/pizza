@@ -14,6 +14,7 @@ export function formatDate(dateStr) {
   }).format(new Date(dateStr));
 }
 
+
 export function calcMinutesLeft(dateStr) {
   const d1 = new Date().getTime();
   const d2 = new Date(dateStr).getTime();
