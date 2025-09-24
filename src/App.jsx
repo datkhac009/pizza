@@ -4,7 +4,7 @@ import Error from "./features/ui/Error";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Menu, { Loader } from "./features/menu/Menu";
 import Cart from "./features/cart/Cart";
-import CreateOrder from "./features/order/CreateOrder";
+import CreateOrder, { action as CreateActions } from "./features/order/CreateOrder";
 import Applayout from "./features/ui/Applayout";
 import Order from "./features/order/Order";
 import { OrderLoader } from "./features/order/orderLoader";
@@ -32,6 +32,7 @@ const App = () => {
         {
           path: "/order/new",
           element: <CreateOrder />,
+          action : CreateActions,
         },
         {
           path: "/order/:orderId",

@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
+import { createOrder } from "../services/apiRestaurant";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
     str
   );
-
 const fakeCart = [
   {
     pizzaId: 12,
@@ -33,12 +34,16 @@ const fakeCart = [
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
-
+  const navigation = useNavigation()
+  console.log(navigation)
+  const submitting = navigation.state === "submitting"
+const formError = useActionData() 
+console.log(formError)
   return (
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <form>
+      <Form method="POST" action="/order/new">
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -47,7 +52,8 @@ function CreateOrder() {
         <div>
           <label>Phone number</label>
           <div>
-            <input type="tel" name="phone" required />
+            <input type="tel" name="phone" required /> <br />
+            {formError ? formError?.phone : ""}
           </div>
         </div>
 
@@ -70,11 +76,34 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button>Order now</button>
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <button disabled={submitting}>{submitting ? "Placing oder..." : "Oder now"}</button>
         </div>
-      </form>
+      </Form>
     </div>
   );
+}
+
+export async function action({ request }) { //1
+  const formData = await request.formData(); //giữ liệu từ Form gửi về
+  const data = Object.fromEntries(formData); //chuyển những cặp này thành một object JS :
+  console.log(data)
+
+  const order = { //2
+    ...data,
+    cart: JSON.parse(data.cart), //chuyển chuỗi đó thành mảng/đối tượng JavaScript.
+    priority: data.priority === "on",
+  };
+  
+  console.log(order)//4
+  const errors = {} // tao ra 1 object error
+  if(!isValidPhone(order.phone)) //isValidPhone là 1 const regex ở trên.
+    errors.phone = "Error Phone";
+  if(Object.keys(errors).length > 0) return errors;// Nếu trong object errors mà có value lỗi thì nó trả về errors để có value lỗi để hiện thi trên ui
+  console.log(order);
+  
+  const newOrder = await createOrder(order);//3
+  return redirect(`/order/${newOrder.id}`);
 }
 
 export default CreateOrder;

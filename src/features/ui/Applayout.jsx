@@ -9,7 +9,7 @@ function Applayout() {
   return (
     <div className="layout">
       {isLoanding && <Loading />}
-      <header>
+      <header className="bg-yellow-500 px-3 py-4 uppercase">
         <Header />
       </header>
       <main>
