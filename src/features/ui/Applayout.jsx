@@ -7,12 +7,12 @@ function Applayout() {
   const navigation =  useNavigation()
   const isLoanding = navigation.state === "loading";
   return (
-    <div className="layout">
+    <div className="layout text-center">
       {isLoanding && <Loading />}
       <header className="bg-yellow-500 px-3 py-4 uppercase">
         <Header />
       </header>
-      <main>
+      <main className="">
         <Outlet />
       </main>
 

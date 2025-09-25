@@ -43,7 +43,7 @@ console.log(formError)
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <Form method="POST" action="/order/new">
+      <Form method="POST" action="/order/new" className="mx-auto max-w-3xl">
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -105,5 +105,6 @@ export async function action({ request }) { //1
   const newOrder = await createOrder(order);//3
   return redirect(`/order/${newOrder.id}`);
 }
+
 
 export default CreateOrder;

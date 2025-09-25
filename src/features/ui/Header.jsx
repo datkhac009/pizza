@@ -4,8 +4,8 @@ import UserName from './UserName';
 
 function Header() {
   return (
-    <div>
-      <Link to="/" className="tracking-widest">Fast Pizza</Link>
+    <div className="flex justify-around items-center">
+      <Link to="/" className="tracking-widest">Fast Pizza Co.</Link>
       <SearchOrder />
       <UserName />
     </div>
