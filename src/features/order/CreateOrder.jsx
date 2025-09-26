@@ -77,7 +77,14 @@ console.log(formError)
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <button disabled={submitting}>{submitting ? "Placing oder..." : "Oder now"}</button>
+          <button disabled={submitting}
+          className="inline-block rounded-full bg-yellow-400 
+          px-4 py-3 font-semibold 
+          uppercase tracking-wide text-stone-800 
+          transition-color duration-300 hover:bg-yellow-500 focus:bg-yellow-300
+          disabled:cursor-not-allowed disabled:bg-slate-700"
+          
+          >{submitting ? "Placing oder..." : "Oder now"}</button>
         </div>
       </Form>
     </div>
