@@ -11,14 +11,16 @@ function SearchOrder() {
     setQuery("");
   }
   return (
-    <div className="flex justify-center bg-yellow-500 p-4">
+    <div className="flex justify-center bg-yellow-500 p-4 max-w-7xl">
       <form onSubmit={handleSubmit} className="w-full max-w-sm">
         <input
           type="text"
           value={query}
           placeholder="Search"
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full rounded-lg border border-gray-300 px-4 py-2 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2"
+          className="w-64 rounded-full border border-gray-400 px-4 py-1 outline-none 
+             transition-all duration-300 ease-in-out 
+             focus:w-[300px] focus:border-yellow-500 focus:ring-2 focus:ring-yellow-300"
         />
       </form>
     </div>
