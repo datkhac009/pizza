@@ -21,6 +21,20 @@ height: calc(100vh + 1vh);
 }
 
 /* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
+.loader-wrapper {
+  position: fixed;       /* luôn phủ toàn màn hình */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;         /* dùng flexbox để center */
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(255,255,255,0.8); /* tuỳ, nếu muốn overlay mờ */
+  z-index: 9999;         /* để nổi lên trên */
+}
 .loader {
   width: 45px;
   aspect-ratio: 0.75;
