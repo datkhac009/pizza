@@ -7,17 +7,15 @@ function Menu() {
   console.log(menu);
   return (
     <>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl mx-auto p-4">
-
-      {menu.map((value, index) => {
-        return (
-          <div key={index} className="mb-4 shadow-lg rounded-md">
-            <MenuItem pizza={value} />
-          </div>
-        );
-      })}
-    </div>
-     
+      <div className="mx-auto mb-8 grid w-[40%] max-w-5xl  grid-cols-1 gap-x-9 gap-y-4 p-10 max-sm:w-[80%] sm:w-[70%] md:w-[60%] md:grid-cols-2 lg:w-[50%]">
+        {menu.map((value, index) => {
+          return (
+            <div key={index} className="mb-4 rounded-md shadow-lg">
+              <MenuItem pizza={value} />
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 }

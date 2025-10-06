@@ -11,7 +11,7 @@ function SearchOrder() {
     setQuery("");
   }
   return (
-    <div className="flex justify-center bg-yellow-500 p-4 max-w-7xl">
+    <div className="flex max-w-7xl justify-center bg-yellow-500 p-4">
       <form onSubmit={handleSubmit} className="w-full max-w-sm">
         <input
           type="text"

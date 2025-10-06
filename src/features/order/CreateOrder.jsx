@@ -43,7 +43,11 @@ function CreateOrder() {
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <Form method="POST" action="/order/new" className="mx-auto max-w-3xl p-6">
+      <Form
+        method="POST"
+        action="/order/new"
+        className="mx-auto mb-10 max-w-3xl p-6"
+      >
         <h2 className="mb-6 text-center text-xl font-semibold">
           Ready to order? Let's go!
         </h2>
@@ -107,7 +111,7 @@ function CreateOrder() {
           </div>
 
           {/* Priority */}
-          <div className="flex items-center gap-2 m-auto">
+          <div className="m-auto flex items-center gap-2">
             <input
               id="priority"
               name="priority"
@@ -126,7 +130,7 @@ function CreateOrder() {
           <div className="pt-2">
             <button
               disabled={submitting}
-              className="inline-block w-full rounded-full bg-yellow-400 px-4 py-3 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-500 focus:bg-yellow-300 disabled:cursor-not-allowed disabled:bg-stone-400"
+              className="inline-block w-[50vw] rounded-full bg-yellow-400 px-4 py-3 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-500 focus:bg-yellow-300 disabled:cursor-not-allowed disabled:bg-stone-400"
             >
               {submitting ? "Placing order..." : "Order now"}
             </button>

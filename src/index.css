@@ -1,14 +1,12 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
-
+@tailwind utilities;
 
 ::-webkit-scrollbar {
   display: none;
 }
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: monospace;
   background-color: #f7f7f7;
   color: #444;
 }
@@ -17,44 +15,59 @@ body {
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: 32px;
-height: calc(100vh + 1vh);
+  height: calc(100vh + 1vh);
 }
 
 /* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
 .loader-wrapper {
-  position: fixed;       /* luôn phủ toàn màn hình */
+  position: fixed; /* luôn phủ toàn màn hình */
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
 
-  display: flex;         /* dùng flexbox để center */
+  display: flex; /* dùng flexbox để center */
   justify-content: center;
   align-items: center;
 
-  background: rgba(255,255,255,0.8); /* tuỳ, nếu muốn overlay mờ */
-  z-index: 9999;         /* để nổi lên trên */
+  background: rgba(255, 255, 255, 0.8); /* tuỳ, nếu muốn overlay mờ */
+  z-index: 9999; /* để nổi lên trên */
 }
 .loader {
   width: 45px;
   aspect-ratio: 0.75;
   --c: no-repeat linear-gradient(#333 0 0);
-  background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
+  background:
+    var(--c) 0% 50%,
+    var(--c) 50% 50%,
+    var(--c) 100% 50%;
   background-size: 20% 50%;
   animation: loading 1s infinite linear;
 }
 
 @keyframes loading {
   20% {
-    background-position: 0% 0%, 50% 50%, 100% 50%;
+    background-position:
+      0% 0%,
+      50% 50%,
+      100% 50%;
   }
   40% {
-    background-position: 0% 100%, 50% 0%, 100% 50%;
+    background-position:
+      0% 100%,
+      50% 0%,
+      100% 50%;
   }
   60% {
-    background-position: 0% 50%, 50% 100%, 100% 0%;
+    background-position:
+      0% 50%,
+      50% 100%,
+      100% 0%;
   }
   80% {
-    background-position: 0% 50%, 50% 50%, 100% 100%;
+    background-position:
+      0% 50%,
+      50% 50%,
+      100% 100%;
   }
 }

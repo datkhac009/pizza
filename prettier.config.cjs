@@ -1,6 +1,5 @@
 /** @type {import("prettier").Config} */
-export default {
+module.exports = {
   plugins: ["prettier-plugin-tailwindcss"],
-  // Tuỳ chọn: sắp xếp cả className & class
   tailwindAttributes: ["className", "class"],
 };
