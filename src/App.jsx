@@ -10,8 +10,6 @@ import CreateOrder, {
 import Applayout from "./features/ui/Applayout";
 import Order from "./features/order/Order";
 import { OrderLoader } from "./features/order/orderLoader";
-import NotFound from "./features/ui/NotFound";
-
 const App = () => {
   const router = createBrowserRouter([
     {

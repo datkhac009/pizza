@@ -154,7 +154,7 @@ export async function action({ request }) {
     priority: data.priority === "on",
   };
 
-  console.log(order); //4
+  console.log(order); //4 Validate Form
   const errors = {}; // tao ra 1 object error
   if (!isValidPhone(order.phone))
     //isValidPhone là 1 const regex ở trên.

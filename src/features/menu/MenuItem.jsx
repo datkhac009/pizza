@@ -16,7 +16,12 @@ function MenuItem({ pizza }) {
           {!soldOut ? <p>{formatCurrency(unitPrice)}</p> : <p>Sold out</p>}
         </div>
       </div>
-      <Button className="mt-6 inline-block w-[50%] rounded-full bg-yellow-400 px-4 py-3 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-500 focus:bg-yellow-300 disabled:cursor-not-allowed disabled:bg-stone-400">
+      <Button className="mt-6 inline-block w-[50%] 
+      rounded-full bg-yellow-400 px-3 py-2
+      font-semibold uppercase tracking-wide text-stone-800 
+      transition-colors duration-300 hover:bg-yellow-500 focus:bg-yellow-300 
+      disabled:cursor-not-allowed disabled:bg-stone-400 
+      max-sm:px-2 max-lg:px-2 max-xl:py-2 max-xl:px-2 max-lg:py-2 md:w-[60%]">
         ADD TO CARD
       </Button>
     </li>

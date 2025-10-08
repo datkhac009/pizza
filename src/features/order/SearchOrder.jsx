@@ -20,7 +20,7 @@ function SearchOrder() {
           onChange={(e) => setQuery(e.target.value)}
           className="w-64 rounded-full border border-gray-400 px-4 py-1 outline-none 
              transition-all duration-300 ease-in-out 
-             focus:w-[300px] focus:border-yellow-500 focus:ring-2 focus:ring-yellow-300"
+             focus:w-[300px] focus:border-yellow-500 focus:ring-2 focus:ring-yellow-300 max-sm:w-44 max-sm:focus:w-[200px]"
         />
       </form>
     </div>
