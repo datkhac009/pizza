@@ -1,9 +1,24 @@
+import { useDispatch } from "react-redux";
 import { formatCurrency } from "../utils/helpers";
 import Button from "./../ui/Button";
+import { AddCart } from "../cart/CartSlice";
 
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+  const dispatch = useDispatch();
 
+  function handleAddtoCart() {
+    const newItem = {
+      pizzaId: id,
+      name: name,
+      quantity: 1,
+      unitPrice: unitPrice,
+      totalPrice: unitPrice * 1,
+    };
+
+    dispatch(AddCart(newItem));
+  }
+  dispatch(AddCart(id, name, imageUrl, unitPrice));
   return (
     <li className="mb-4 list-none">
       <img src={imageUrl} alt={name} className="h-full w-screen object-cover" />
@@ -16,14 +31,19 @@ function MenuItem({ pizza }) {
           {!soldOut ? <p>{formatCurrency(unitPrice)}</p> : <p>Sold out</p>}
         </div>
       </div>
-      <Button className="mt-6 inline-block w-[50%] 
+      {!soldOut && (
+        <Button
+          className="mt-6 inline-block w-[50%] 
       rounded-full bg-yellow-400 px-3 py-2
       font-semibold uppercase tracking-wide text-stone-800 
       transition-colors duration-300 hover:bg-yellow-500 focus:bg-yellow-300 
       disabled:cursor-not-allowed disabled:bg-stone-400 
-      max-sm:px-2 max-lg:px-2 max-xl:py-2 max-xl:px-2 max-lg:py-2 md:w-[60%]">
-        ADD TO CARD
-      </Button>
+      max-xl:px-2 max-xl:py-2 max-lg:px-2 max-lg:py-2 max-sm:px-2 md:w-[60%]"
+          onClick={() => handleAddtoCart}
+        >
+          ADD TO CARD
+        </Button>
+      )}
     </li>
   );
 }
