@@ -2,62 +2,44 @@ import { useState } from "react";
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../services/apiRestaurant";
 import { useSelector } from "react-redux";
+import { getCart, getCartTotalPrice } from "../cart/CartSlice";
+import EmptyCart from "../cart/EmptyCart";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
     str,
   );
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: "Vegetale",
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
 
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
-  const cart = fakeCart;
+
   const navigation = useNavigation();
   //console.log(navigation);
   const submitting = navigation.state === "submitting";
   const formError = useActionData();
   const username = useSelector((s) => s.user.username);
-  console.log(username);
+  const cart = useSelector(getCart);
+  const totalPriceSubmit = useSelector(getCartTotalPrice);
+  if (!cart || cart.cart.length === 0) return <EmptyCart />;
+  console.log(cart);
+  //console.log(username);
   //console.log(formError);
   return (
-    <div>
-      <h2>Ready to order? Let's go!</h2>
+    <div className="px-4 py-8">
+      {/* Tiêu đề trang */}
+      <h2 className="mb-6 text-center text-xl font-semibold">
+        Ready to order? Let's go!
+      </h2>
 
       <Form
         method="POST"
         action="/order/new"
-        className="mx-auto mb-10 max-w-3xl p-6"
+        className="mx-auto mb-10 w-full max-w-xl rounded-lg p-6"
       >
-        <h2 className="mb-6 text-center text-xl font-semibold">
-          Ready to order? Let's go!
-        </h2>
-
         <div className="grid gap-5">
           {/* First Name */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col">
             <label
               htmlFor="customer"
               className="mb-1 text-sm font-medium text-stone-700"
@@ -70,12 +52,13 @@ function CreateOrder() {
               type="text"
               defaultValue={username}
               required
-              className="w-3/6 rounded-md border border-stone-300 bg-white p-2 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200"
+              className="w-full rounded-md border border-stone-300 bg-white p-2 outline-none
+                       focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200"
             />
           </div>
 
           {/* Phone */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col">
             <label
               htmlFor="phone"
               className="mb-1 text-sm font-medium text-stone-700"
@@ -88,9 +71,12 @@ function CreateOrder() {
               type="tel"
               required
               aria-invalid={Boolean(formError?.phone) || undefined}
-              className={`w-3/6 rounded-md border bg-white p-2 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 ${
-                formError?.phone ? "border-red-500" : "border-stone-300"
-              }`}
+              className={`w-full rounded-md border border-stone-300 bg-white p-2 outline-none
+                       focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 ${
+                         formError?.phone
+                           ? "border-red-500"
+                           : "border-stone-300"
+                       }`}
             />
             {formError?.phone && (
               <p className="mt-1 text-sm text-red-600">{formError.phone}</p>
@@ -98,7 +84,7 @@ function CreateOrder() {
           </div>
 
           {/* Address */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col">
             <label
               htmlFor="address"
               className="mb-1 text-sm font-medium text-stone-700"
@@ -110,12 +96,13 @@ function CreateOrder() {
               name="address"
               type="text"
               required
-              className="w-3/6 rounded-md border border-stone-300 bg-white p-2 outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200"
+              className="w-full rounded-md border border-stone-300 bg-white p-2 outline-none
+                       focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200"
             />
           </div>
 
           {/* Priority */}
-          <div className="m-auto flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <input
               id="priority"
               name="priority"
@@ -128,17 +115,18 @@ function CreateOrder() {
           </div>
 
           {/* Hidden cart */}
-          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <input type="hidden" name="cart" value={JSON.stringify(cart.cart)} />
 
           {/* Submit */}
-          <div className="pt-2">
-            <button
-              disabled={submitting}
-              className="inline-block w-[50vw] rounded-full bg-yellow-400 px-4 py-3 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-500 focus:bg-yellow-300 disabled:cursor-not-allowed disabled:bg-stone-400"
-            >
-              {submitting ? "Placing order..." : "Order now"}
-            </button>
-          </div>
+          <button
+            disabled={submitting}
+            className="mt-2 w-full rounded-full bg-yellow-400 px-4 py-3 font-semibold uppercase
+                     tracking-wide text-stone-800 transition-colors duration-300
+                     hover:bg-yellow-500 focus:bg-yellow-300 disabled:cursor-not-allowed
+                     disabled:bg-stone-400"
+          >
+            {submitting ? "Placing order..." : `Order now $${totalPriceSubmit}`}
+          </button>
         </div>
       </Form>
     </div>
@@ -166,7 +154,9 @@ export async function action({ request }) {
   if (Object.keys(errors).length > 0) return errors; // Nếu trong object errors mà có value lỗi thì nó trả về errors để có value lỗi để hiện thi trên ui
   console.log(order);
 
-  const newOrder = await createOrder(order); //3
+  //3 truyền oder vào createOrder
+  const newOrder = await createOrder(order); //await đợi cho hàm hoàn thành và sẽ lấy kết quả cuối cùng
+  //Khi create và Validate xong nó sẽ redirect (chuyển hướng) đến trang oder/:id
   return redirect(`/order/${newOrder.id}`);
 }
 

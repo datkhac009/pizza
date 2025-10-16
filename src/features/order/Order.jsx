@@ -66,5 +66,4 @@ function Order() {
     </div>
   );
 }
-
 export default Order;

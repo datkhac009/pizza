@@ -1,38 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cart: [
-    {
-      pizzaId: 12,
-      name: "Pizza Pig",
-      quantity: 5,
-      unitPrice: 16,
-      totalPrice: 32,
-    },
-  ],
+  cart: [],
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    AddCart: {
-      prepare(newItem) {
-        console.log(newItem);
-        return { payload: newItem };
-      },
-      reducer(state, action) {
-        state.cart.push(action.payload); // push “Mutate” = sửa trực tiếp
-      },
+    AddCart(state, action) {
+      const item = action.payload;
+      const qty = item.quantity ?? 1;
+      const CartItem = state.cart.find((cid) => cid.pizzaId === item.pizzaId); //lấy item mà mình add
+      if (CartItem) {
+        CartItem.quantity += qty; //nếu add 2 lần thì nó sẽ + quantity lên
+        CartItem.totalPrice = CartItem.quantity * CartItem.unitPrice; //Tính tổng giá tiền Lấy giá số lượng nhân với giá tiền hiện tại
+      } else {
+        state.cart.push({
+          pizzaId: item.pizzaId,
+          name: item.name,
+          imageUrl: item.imageUrl,
+          unitPrice: item.unitPrice,
+          quantity: qty,
+          totalPrice: qty * item.unitPrice,
+        });
+      }
     },
     DeleteCart(state, action) {
-      //delete
       const id = action.payload;
       state.cart = state.cart.filter((c) => c.pizzaId !== id);
     },
     Increment(state, action) {
       const id = action.payload;
       const item = state.cart.find((c) => c.pizzaId === id);
+      console.log(item);
       if (item) {
         item.quantity += 1;
         item.totalPrice = item.quantity * item.unitPrice;
@@ -45,14 +46,24 @@ const cartSlice = createSlice({
         item.quantity -= 1;
         item.totalPrice = item.quantity * item.unitPrice;
       }
-      if (item.quantity <= 0) state.cart.filter((c) => c.pizzaId !== id);
+      if (item.quantity <= 0)
+        state.cart = state.cart.filter((c) => c.pizzaId !== id);
     },
     ClearCart(state) {
-      state.cart = [];
+      const confirm = window.confirm("Bạn có muốn xóa tất cả không?");
+      if (confirm) {
+        state.cart = [];
+      }
     },
   },
 });
 
 export const { AddCart, DeleteCart, Increment, Decrement, ClearCart } =
   cartSlice.actions;
+
 export default cartSlice.reducer;
+export const getCart = (state) => state.cart;
+export const getCartTotalQuantity = (c) =>
+  c.cart.cart.reduce((sum, item) => sum + item.quantity, 0); //tính tổng quantity bằng reduce()
+export const getCartTotalPrice = (c) =>
+  c.cart.cart.reduce((sum, item) => sum + item.totalPrice, 0); //tính tổng price bằng reduce()

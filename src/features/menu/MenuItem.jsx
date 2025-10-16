@@ -10,17 +10,20 @@ function MenuItem({ pizza }) {
   function handleAddtoCart() {
     const newItem = {
       pizzaId: id,
-      name: name,
+      name,
+      unitPrice: Number(unitPrice),
+      imageUrl,
       quantity: 1,
-      unitPrice: unitPrice,
-      totalPrice: unitPrice * 1,
     };
 
     dispatch(AddCart(newItem));
   }
-  dispatch(AddCart(id, name, imageUrl, unitPrice));
   return (
-    <li className="mb-4 list-none">
+    <li
+      className={`mb-4 list-none ${
+        soldOut ? "cursor-not-allowed  opacity-60" : ""
+      }`}
+    >
       <img src={imageUrl} alt={name} className="h-full w-screen object-cover" />
       <div>
         <p className="mt-3 text-lg font-semibold text-stone-800">{name}</p>
@@ -39,7 +42,7 @@ function MenuItem({ pizza }) {
       transition-colors duration-300 hover:bg-yellow-500 focus:bg-yellow-300 
       disabled:cursor-not-allowed disabled:bg-stone-400 
       max-xl:px-2 max-xl:py-2 max-lg:px-2 max-lg:py-2 max-sm:px-2 md:w-[60%]"
-          onClick={() => handleAddtoCart}
+          onClick={handleAddtoCart}
         >
           ADD TO CARD
         </Button>
