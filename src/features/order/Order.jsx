@@ -1,6 +1,6 @@
 // Test ID: IIDSAT
 
-import { useLoaderData, useLocation, useNavigation } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { calcMinutesLeft, formatCurrency, formatDate } from "../utils/helpers";
 import OrderItem from "./OrderItem";
 
@@ -23,7 +23,6 @@ function Order() {
     <div>
       <div className="space-y-8">
         <h2 className="text-xl font-semibold">Status: Order #{id}</h2>
-
         <div>
           {priority && (
             <span
@@ -60,7 +59,7 @@ function Order() {
       </div>
       <ul className="divide-y divide-stone-200">
         {cart.map((item) => {
-          return <OrderItem item={item} key={item.key} />;
+          return <OrderItem item={item} key={item.pizzaId} />;
         })}
       </ul>
     </div>
