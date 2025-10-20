@@ -114,7 +114,10 @@ function CreateOrder() {
               <button
                 disabled={status === "loading"}
                 type="button"
-                onClick={() => dispatch(fetchAddress())}
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(fetchAddress());
+                  }}
                 className="rounded-md bg-yellow-400 px-4 py-2 text-sm font-semibold transition-colors hover:bg-yellow-500 disabled:cursor-not-allowed
                        disabled:bg-stone-400"
               >
@@ -122,7 +125,12 @@ function CreateOrder() {
               </button>
             </div>
           </div>
-
+            <input type="hidden"
+              name="position"
+              value={position.longitude && position.latitude ?
+               `${position.latitude}, ${position.longitude}` : 
+               ''}
+            />
           {/* Priority */}
           <div className="flex items-center gap-2">
             <input
