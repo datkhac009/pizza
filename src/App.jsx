@@ -11,7 +11,7 @@ import Applayout from "./features/ui/Applayout";
 
 import { MenuLoader } from "./features/menu/MenuLoader";
 import Order from "./features/order/Order";
-import { OrderLoader } from "./features/order/orderLoader";
+import { OrderLoader } from "./features/order/OrderLoader";
 import { action as actionUpdateOrder } from "./features/order/UpdateOrder";
 const App = () => {
   const router = createBrowserRouter([
