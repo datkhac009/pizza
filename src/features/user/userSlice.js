@@ -16,7 +16,7 @@ export const fetchAddress = createAsyncThunk(
       longitude: positionObj.coords.longitude,
     };
 
-    //   // 2) Then we use a reverse geocoding API to get a description of the user's address, so we can display it the order form, so that the user can correct it if wrong
+    // 2) Then we use a reverse geocoding API to get a description of the user's address, so we can display it the order form, so that the user can correct it if wrong
     const addressObj = await getAddress(position);
     const address = `${addressObj?.locality}, ${addressObj?.city} ${addressObj?.postcode}, ${addressObj?.countryName}`;
     console.log(position, address);
@@ -32,8 +32,7 @@ const initialState = {
   position: {},
   address: "",
   error: "",
-  // phone :"",
-  // address: "",
+  phone: "",
 };
 const userSlice = createSlice({
   name: "user",
@@ -41,6 +40,12 @@ const userSlice = createSlice({
   reducers: {
     setName(state, action) {
       state.username = action.payload;
+    },
+    setPhone(state, action) {
+      state.phone = action.payload;
+    },
+    setAddress(state, action) {
+      state.address = action.payload;
     },
     addName: {
       prepare(username) {
@@ -55,19 +60,20 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) =>
     builder
-      .addCase(fetchAddress.pending, (state, action) => {
+      .addCase(fetchAddress.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchAddress.fulfilled, (state, action) => {
         state.position = action.payload.position;
         state.address = action.payload.address;
         state.status = "idle";
+        state.error = "";
       })
       .addCase(fetchAddress.rejected, (state, action) => {
         state.status = " error";
-        state.error = action.error.message;
+        state.error = action.error?.message || "Failed to get position";
       }),
 });
-export const { setName, addName } = userSlice.actions;
+export const { setName, addName, setPhone, setAddress } = userSlice.actions;
 
 export default userSlice.reducer;

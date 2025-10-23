@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../services/apiRestaurant";
 import { useDispatch, useSelector } from "react-redux";
-import { getCart, getCartTotalPrice } from "../cart/CartSlice";
+import { ClearCart, getCart, getCartTotalPrice } from "../cart/CartSlice";
 import EmptyCart from "../cart/EmptyCart";
-import { fetchAddress } from "../user/userSlice";
+import { fetchAddress, setAddress, setPhone } from "../user/userSlice";
+import store from "../../store";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -18,7 +19,7 @@ function CreateOrder() {
   const navigation = useNavigation();
   //console.log(navigation);
   const { position, address, error, status } = useSelector(
-    (store) => store.user,
+    (sliceuser) => sliceuser.user,
   );
   console.log(status);
   // console.log(position, address, error, status);
@@ -31,8 +32,8 @@ function CreateOrder() {
   const priorityPrice = checkPriority ? totalPriceSubmit * 0.2 : 0;
   if (!cart || cart.cart.length === 0) return <EmptyCart />;
   const dispatch = useDispatch();
-  console.log(cart);
-  console.log(checkPriority);
+  // console.log(cart);
+  // console.log(checkPriority);
   //console.log(username);
   //console.log(formError);
   return (
@@ -78,6 +79,7 @@ function CreateOrder() {
               id="phone"
               name="phone"
               type="tel"
+              onChange={(e) => dispatch(setPhone(e.target.value))}
               required
               aria-invalid={Boolean(formError?.phone) || undefined}
               className={`w-full rounded-md border border-stone-300 bg-white p-2 outline-none
@@ -107,17 +109,17 @@ function CreateOrder() {
                 name="address"
                 type="text"
                 defaultValue={address}
+                onChange={(e) => dispatch(setAddress(e.target.value))}
                 required
                 className="flex-1  border border-stone-300 bg-white p-2 outline-none
                      focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200"
               />
               <button
-                disabled={status === "loading"}
+                disabled={status === "loading" || !!address} //!! là boolean nếu có address rồi thì sẽ là true
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   dispatch(fetchAddress());
-                  }}
+                }}
                 className="rounded-md bg-yellow-400 px-4 py-2 text-sm font-semibold transition-colors hover:bg-yellow-500 disabled:cursor-not-allowed
                        disabled:bg-stone-400"
               >
@@ -125,12 +127,15 @@ function CreateOrder() {
               </button>
             </div>
           </div>
-            <input type="hidden"
-              name="position"
-              value={position.longitude && position.latitude ?
-               `${position.latitude}, ${position.longitude}` : 
-               ''}
-            />
+          <input
+            type="hidden"
+            name="position"
+            value={
+              position.longitude && position.latitude
+                ? `${position.latitude}, ${position.longitude}`
+                : ""
+            }
+          />
           {/* Priority */}
           <div className="flex items-center gap-2">
             <input
@@ -170,12 +175,14 @@ export async function action({ request }) {
   //1
   const formData = await request.formData(); //giữ liệu từ Form gửi về
   const data = Object.fromEntries(formData); //chuyển những cặp này thành một object JS :
-  console.log(data);
+  //console.log(data);
 
   const order = {
     //2
     ...data,
     cart: JSON.parse(data.cart), //chuyển chuỗi đó thành mảng/đối tượng JavaScript.
+    phone: data.phone,
+    address: data.address,
     priority: data.priority === "on",
   };
 
@@ -190,6 +197,7 @@ export async function action({ request }) {
   //3 truyền oder vào createOrder
   const newOrder = await createOrder(order); //await đợi cho hàm hoàn thành và sẽ lấy kết quả cuối cùng
   //Khi create và Validate xong nó sẽ redirect (chuyển hướng) đến trang oder/:id
+  store.dispatch(ClearCart()); // k được dùng hook useDispatch bên trong action của Router nên dùng store để có thể dùng được dispatch
   return redirect(`/order/${newOrder.id}`);
 }
 

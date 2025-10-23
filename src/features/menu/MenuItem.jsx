@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { formatCurrency } from "../utils/helpers";
 import Button from "./../ui/Button";
 import { AddCart } from "../cart/CartSlice";
+import DeleteItem from "../cart/DeleteItem";
 
 function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
@@ -44,9 +45,12 @@ function MenuItem({ pizza }) {
       max-xl:px-2 max-xl:py-2 max-lg:px-2 max-lg:py-2 max-sm:px-2 md:w-[60%]"
           onClick={handleAddtoCart}
         >
-          ADD TO CARD
+          ADD TO CART
         </Button>
       )}
+      <div>
+        <DeleteItem id={id} />
+      </div>
     </li>
   );
 }

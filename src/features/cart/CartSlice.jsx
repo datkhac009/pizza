@@ -50,10 +50,7 @@ const cartSlice = createSlice({
         state.cart = state.cart.filter((c) => c.pizzaId !== id);
     },
     ClearCart(state) {
-      const confirm = window.confirm("Bạn có muốn xóa tất cả không?");
-      if (confirm) {
-        state.cart = [];
-      }
+      state.cart = [];
     },
   },
 });

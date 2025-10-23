@@ -4,10 +4,11 @@ import { useFetcher, useLoaderData } from "react-router-dom";
 import { calcMinutesLeft, formatCurrency, formatDate } from "../utils/helpers";
 import OrderItem from "./OrderItem";
 import { useEffect } from "react";
+import UpdateOrder from "./UpdateOrder";
 
 function Order() {
   const order = useLoaderData();
-  console.log("loaderData (from useLoaderData):", order);
+  //console.log("loaderData (from useLoaderData):", order);
 
   const fetcher = useFetcher();
   useEffect(() => {
@@ -24,7 +25,7 @@ function Order() {
     cart,
   } = order; //useLoaderData lấy data trước khi render
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
-  console.log(fetcher.data);
+  //console.log(fetcher.data);
   return (
     <div>
       <div className="space-y-8">
@@ -78,6 +79,7 @@ function Order() {
           );
         })}
       </ul>
+      <div>{!priority && <UpdateOrder order={order} />}</div>
     </div>
   );
 }
