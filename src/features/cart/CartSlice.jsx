@@ -59,8 +59,19 @@ export const { AddCart, DeleteCart, Increment, Decrement, ClearCart } =
   cartSlice.actions;
 
 export default cartSlice.reducer;
-export const getCart = (state) => state.cart;
-export const getCartTotalQuantity = (c) =>
-  c.cart.cart.reduce((sum, item) => sum + item.quantity, 0); //tính tổng quantity bằng reduce()
-export const getCartTotalPrice = (c) =>
-  c.cart.cart.reduce((sum, item) => sum + item.totalPrice, 0); //tính tổng price bằng reduce()
+
+//Get
+export const getCart = (store) => store.cart;
+export const getCartTotalQuantity = (store) =>{
+  
+  const totalquantity =  store.cart.cart.reduce((sum, item) => sum + item.quantity, 0); //tính tổng quantity bằng reduce()
+  return totalquantity;
+}
+export const getCartTotalPrice = (store) =>{
+  const totalprice =  store.cart.cart.reduce((sum, item) => sum + item.totalPrice, 0); //tính tổng price bằng reduce()
+  return totalprice
+}
+export const getQuantityItem = (id) => (store) =>{
+  const iditem = store.cart.cart.find((c)=> c.pizzaId === id)
+  return iditem ? iditem.quantity : 0
+}

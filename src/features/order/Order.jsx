@@ -27,7 +27,7 @@ function Order() {
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
   //console.log(fetcher.data);
   return (
-    <div>
+    <div className="mb-16">
       <div className="space-y-8">
         <h2 className="text-xl font-semibold">Status: Order #{id}</h2>
         <div>

@@ -30,7 +30,7 @@ function CreateOrder() {
   const totalPriceSubmit = useSelector(getCartTotalPrice);
   const [checkPriority, setPriorityPrice] = useState(false);
   const priorityPrice = checkPriority ? totalPriceSubmit * 0.2 : 0;
-  if (!cart || cart.cart.length === 0) return <EmptyCart />;
+  if (!cart || cart.length === 0) return <EmptyCart />;
   const dispatch = useDispatch();
   // console.log(cart);
   // console.log(checkPriority);
@@ -120,7 +120,7 @@ function CreateOrder() {
                 onClick={() => {
                   dispatch(fetchAddress());
                 }}
-                className="rounded-md bg-yellow-400 px-4 py-2 text-sm font-semibold transition-colors hover:bg-yellow-500 disabled:cursor-not-allowed
+                className=" bg-yellow-400 px-4 py-2 text-sm font-semibold transition-colors hover:bg-yellow-500 disabled:cursor-not-allowed
                        disabled:bg-stone-400"
               >
                 Get Position

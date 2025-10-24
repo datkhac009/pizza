@@ -6,7 +6,7 @@ import DeleteItem from "./DeleteItem";
 import UpdateItemQuantity from "./UpdateItemQuantity";
 
 function Cart() {
-  const cart = useSelector((c) => c.cart.cart);
+  const cart = useSelector((s) => s.cart.cart);
   const checkCart = cart.length;
   const username = useSelector((s) => s.user.username);
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ function Cart() {
             {cart.map((item) => (
               <li
                 key={item.pizzaId}
-                className="grid grid-cols-[1fr_1fr_1fr_auto] items-start gap-4 py-3"
+                className="grid grid-cols-[1fr_1fr_1fr_auto] items-start items-center gap-4 py-3"
               >
                 <span className="text-left font-medium">
                   {item.quantity}× <span className="text-lg">{item.name}</span>
@@ -39,7 +39,13 @@ function Cart() {
                   pizzaId={item.pizzaId}
                   currentQuantity={item.quantity}
                 />
-                <DeleteItem id={item.pizzaId} />
+                <DeleteItem
+                  id={item.pizzaId}
+                  className="appearance-none rounded-full border border-red-500
+             bg-red-50 px-4 py-2 text-red-600
+             transition hover:border-red-600
+             hover:bg-red-500 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-200"
+                />
               </li>
             ))}
           </ul>
