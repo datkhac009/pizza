@@ -11,8 +11,15 @@ import store from "../../store";
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-    str,
+    String(str || "").trim(),
   );
+
+const isValidName = (str) =>
+  /^(?=.{2,50}$)[\p{L}\p{M}]+(?:[\s'.-][\p{L}\p{M}]+)*$/u.test(
+    String(str || "").trim(),
+  );
+const isValidAddress = (str) =>
+  /^(?=.{8,120}$)[\p{L}\p{M}\d\s,./-]+$/u.test(String(str || "").trim());
 
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
@@ -35,7 +42,7 @@ function CreateOrder() {
   // console.log(cart);
   // console.log(checkPriority);
   //console.log(username);
-  //console.log(formError);
+  console.log(formError);
   return (
     <div className="px-4 py-8">
       {/* Tiêu đề trang */}
@@ -65,6 +72,10 @@ function CreateOrder() {
               className="w-full rounded-md border border-stone-300 bg-white p-2 outline-none
                        focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200"
             />
+            {/* message valid name */}
+            {formError?.customer && (
+              <p className="mt-1 text-sm text-red-600">{formError.customer}</p>
+            )}
           </div>
 
           {/* Phone */}
@@ -81,14 +92,10 @@ function CreateOrder() {
               type="tel"
               onChange={(e) => dispatch(setPhone(e.target.value))}
               required
-              aria-invalid={Boolean(formError?.phone) || undefined}
               className={`w-full rounded-md border border-stone-300 bg-white p-2 outline-none
-                       focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 ${
-                         formError?.phone
-                           ? "border-red-500"
-                           : "border-stone-300"
-                       }`}
+                       focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200`}
             />
+            {/* message valid phone */}
             {formError?.phone && (
               <p className="mt-1 text-sm text-red-600">{formError.phone}</p>
             )}
@@ -102,7 +109,6 @@ function CreateOrder() {
             >
               Address
             </label>
-
             <div className="flex items-center ">
               <input
                 id="address"
@@ -126,6 +132,10 @@ function CreateOrder() {
                 Get Position
               </button>
             </div>
+            {/* message valid address */}
+            {formError?.address && (
+              <p className="mt-1 text-sm text-red-600">{formError.address}</p>
+            )}
           </div>
           <input
             type="hidden"
@@ -151,7 +161,11 @@ function CreateOrder() {
           </div>
 
           {/* Hidden cart */}
-          <input type="hidden" name="cart" value={JSON.stringify(cart.cart)} />
+          <input
+            type="hidden"
+            name="cart"
+            value={cart?.cart?.length ? JSON.stringify(cart.cart) : "[]"}
+          />
 
           {/* Submit */}
           <button
@@ -170,35 +184,38 @@ function CreateOrder() {
     </div>
   );
 }
+export default CreateOrder;
 
 export async function action({ request }) {
-  //1
-  const formData = await request.formData(); //giữ liệu từ Form gửi về
-  const data = Object.fromEntries(formData); //chuyển những cặp này thành một object JS :
-  //console.log(data);
+  // 1) Lấy dữ liệu từ form
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
 
+  // 2) Chuẩn hóa object order
   const order = {
-    //2
     ...data,
-    cart: JSON.parse(data.cart), //chuyển chuỗi đó thành mảng/đối tượng JavaScript.
+    cart: JSON.parse(data.cart || []), //chuyển chuỗi đó thành mảng/đối tượng JavaScript.
     phone: data.phone,
     address: data.address,
     priority: data.priority === "on",
   };
 
-  console.log(order); //4 Validate Form
-  const errors = {}; // tao ra 1 object error
-  if (!isValidPhone(order.phone))
-    //isValidPhone là 1 const regex ở trên.
-    errors.phone = "Error Phone";
-  if (Object.keys(errors).length > 0) return errors; // Nếu trong object errors mà có value lỗi thì nó trả về errors để có value lỗi để hiện thi trên ui
-  console.log(order);
+  // 3) Validate (các hàm isValid... phải return .test(...) )
+  const errors = {};
 
-  //3 truyền oder vào createOrder
+  if (!isValidPhone(order.phone)) errors.phone = "Error Phone";
+  if (!isValidName(order.customer)) errors.customer = "Error Name";
+  if (!isValidAddress(order.address)) errors.address = "Error Address";
+
+  // Có lỗi thì trả về cho useActionData
+  if (Object.keys(errors).length > 0) return errors;
+
+  // 4) Gọi API tạo order
   const newOrder = await createOrder(order); //await đợi cho hàm hoàn thành và sẽ lấy kết quả cuối cùng
-  //Khi create và Validate xong nó sẽ redirect (chuyển hướng) đến trang oder/:id
-  store.dispatch(ClearCart()); // k được dùng hook useDispatch bên trong action của Router nên dùng store để có thể dùng được dispatch
+
+  // 5) Clear cart (dispatch qua store đã export sẵn)
+  store.dispatch(ClearCart());
+
+  // 6) Chuyển trang
   return redirect(`/order/${newOrder.id}`);
 }
-
-export default CreateOrder;
