@@ -5,17 +5,22 @@ function Menu() {
   const menu = useLoaderData();
   console.log(menu);
   return (
-    <>
-      <ul className="mx-auto mb-8 grid w-[40%] max-w-5xl  grid-cols-1 gap-x-9 gap-y-4 p-10 max-sm:w-[80%] sm:w-[70%] md:w-[60%] md:grid-cols-2 lg:w-[50%]">
-        {menu.map((value) => {
-          return (
-            <div key={value.id} className="mb-4 rounded-md shadow-lg">
-              <MenuItem pizza={value} />
-            </div>
-          );
-        })}
-      </ul>
-    </>
+    <div className="px-4 py-8">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="mb-8 text-center text-2xl font-bold text-stone-800">
+          Our Menu
+        </h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {menu.map((value) => {
+            return (
+              <div key={value.id} className="group">
+                <MenuItem pizza={value} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 }
 

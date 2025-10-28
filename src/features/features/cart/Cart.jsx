@@ -1,16 +1,14 @@
 import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { ClearCart, getCartTotalPrice } from "./CartSlice";
+import { ClearCart } from "./CartSlice";
 import DeleteItem from "./DeleteItem";
 import UpdateItemQuantity from "./UpdateItemQuantity";
-import { formatCurrency } from "../utils/helpers";
 
 function Cart() {
   const cart = useSelector((s) => s.cart.cart);
   const checkCart = cart.length;
   const username = useSelector((s) => s.user.username);
-  const totalPrice = useSelector(getCartTotalPrice);
   const dispatch = useDispatch();
   return (
     <>
@@ -34,8 +32,8 @@ function Cart() {
                 <span className="text-left font-medium">
                   {item.quantity}× <span className="text-lg">{item.name}</span>
                 </span>
-                <span className="min-w-[50px] text-center text-lg font-bold text-green-600">
-                  {formatCurrency(item.totalPrice)}
+                <span className="min-w-[50px] text-center text-lg font-bold text-stone-700">
+                  ${item.totalPrice}
                 </span>
                 <UpdateItemQuantity
                   pizzaId={item.pizzaId}
@@ -51,14 +49,6 @@ function Cart() {
               </li>
             ))}
           </ul>
-
-          {/* Total Price */}
-          <div className="border-t border-stone-200 pt-4">
-            <div className="flex justify-between items-center text-xl font-bold">
-              <span>Total:</span>
-              <span className="text-green-600">{formatCurrency(totalPrice)}</span>
-            </div>
-          </div>
 
           {/* Actions */}
           <div className="flex justify-center gap-4 pt-4">

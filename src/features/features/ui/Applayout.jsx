@@ -27,10 +27,12 @@ function Applayout() {
     const handleScroll = () => {
       const current = window.scrollY;
 
-      if (current > lastY.current && current > 100) {
-        setShow(false);
-      } else if (current < lastY.current) {
+      if (current > lastY.current) {
+        // scroll down
         setShow(true);
+      } else if (current < lastY.current) {
+        // scroll up
+        setShow(false);
       }
       lastY.current = current;
     };
@@ -54,10 +56,12 @@ function Applayout() {
       </main>
       <footer>
         <div
-          className={`fixed bottom-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out
-              ${show ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}`}
+          className={`fixed bottom-0 left-0 right-0 flex h-14 items-center 
+              justify-between bg-neutral-900 text-white shadow-lg
+              transition-transform duration-500 ease-in-out
+              ${show ? "translate-y-0" : "translate-y-full"}`}
         >
-          <CartOverview />
+          {show && <CartOverview />}
         </div>
       </footer>
     </div>

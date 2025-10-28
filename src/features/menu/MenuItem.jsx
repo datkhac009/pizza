@@ -21,49 +21,74 @@ function MenuItem({ pizza }) {
     dispatch(AddCart(newItem));
   }
   return (
-    <li
-      className={`mb-4 list-none ${
-        soldOut ? "cursor-not-allowed  opacity-60" : ""
+    <div
+      className={`relative overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-xl ${
+        soldOut ? "cursor-not-allowed opacity-60" : "hover:-translate-y-1"
       }`}
     >
-      <img src={imageUrl} alt={name} className="h-full w-screen object-cover" />
-      <div>
-        <p className="mt-3 text-lg font-semibold text-stone-800">{name}</p>
-        <p className="text-sm italic text-stone-500">
+      {/* Image */}
+      <div className="relative h-48 overflow-hidden">
+        <img 
+          src={imageUrl} 
+          alt={name} 
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" 
+        />
+        {soldOut && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <span className="text-white text-lg font-bold">SOLD OUT</span>
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-stone-800 mb-2">{name}</h3>
+        <p className="text-sm text-stone-600 mb-4 line-clamp-2">
           {ingredients.join(", ")}
         </p>
-        <div className="mt-1 font-bold text-stone-600">
-          {!soldOut ? <p>{formatCurrency(unitPrice)}</p> : <p>Sold out</p>}
+        
+        {/* Price */}
+        <div className="mb-4">
+          {!soldOut ? (
+            <div className="space-y-1">
+              <div className="text-2xl font-bold text-green-600">
+                {formatCurrency(unitPrice)}
+              </div>
+              {totalQuantity > 0 && (
+                <div className="text-sm text-stone-500">
+                </div>
+              )}
+            </div>
+          ) : (
+            <span className="text-lg font-semibold text-red-500">Sold out</span>
+          )}
         </div>
-      </div>
-      {!soldOut && (
-        <div className="mt-4 flex items-center justify-center gap-3">
-          <Button
-            className="inline-flex items-center justify-center
-               rounded-full bg-yellow-400 px-6 py-2.5
-               font-semibold uppercase tracking-wide text-stone-900
-               shadow-sm transition-all duration-200
-               hover:bg-yellow-500 hover:shadow-md
-               focus:outline-none focus:ring-4 focus:ring-yellow-200
-               disabled:cursor-not-allowed disabled:bg-stone-300"
-            onClick={handleAddtoCart}
-          >
-            ADD TO CART
-          </Button>
-          <div>
-            {totalQuantity > 0 && (
-              <DeleteItem
-                id={id}
-                className="appearance-none rounded-full border border-red-500
-             bg-red-50 px-4 py-2 text-red-600
-             transition hover:border-red-600
-             hover:bg-red-500 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-200"
-              />
+
+        {/* Actions */}
+        {!soldOut && (
+          <div className="flex items-center justify-between">
+            {totalQuantity > 0 ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-stone-600">
+                  In cart: {totalQuantity}
+                </span>
+                <DeleteItem
+                  id={id}
+                  className="rounded-full border border-red-500 bg-red-50 px-3 py-1 text-sm text-red-600 transition hover:border-red-600 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-200"
+                />
+              </div>
+            ) : (
+              <Button
+                className="w-full rounded-lg bg-yellow-400 px-4 py-2 font-semibold text-stone-900 transition-all duration-200 hover:bg-yellow-500 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-200"
+                onClick={handleAddtoCart}
+              >
+                Add to Cart
+              </Button>
             )}
           </div>
-        </div>
-      )}
-    </li>
+        )}
+      </div>
+    </div>
   );
 }
 
