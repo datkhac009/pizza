@@ -12,7 +12,7 @@ const TITLES = {
 };
 
 function Applayout() {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const lastY = useRef(0);
 
   const { pathname } = useLocation();
