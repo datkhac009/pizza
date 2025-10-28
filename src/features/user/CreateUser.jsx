@@ -61,7 +61,7 @@ function CreateUser() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-8 py-4 text-xl font-bold text-white bg-yellow-500 rounded-full shadow-lg transition-all duration-300 hover:bg-yellow-600 hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="w-72 px-6 py-2 text-xl font-bold text-white bg-yellow-500 rounded-full shadow-lg transition-all duration-300 hover:bg-yellow-600 hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">
