@@ -54,7 +54,7 @@ function Applayout() {
       </main>
       <footer>
         <div
-          className={`fixed bottom-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out
+          className={`fixed bottom-[-5px] left-[-2px] right-[-2px] z-50 transition-all duration-300 ease-in-out
               ${show ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}`}
         >
           <CartOverview />
