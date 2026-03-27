@@ -16,7 +16,7 @@ function SearchOrder() {
         <input
           type="text"
           value={query}
-          placeholder="Search"
+          placeholder="Search Order #ID"
           onChange={(e) => setQuery(e.target.value)}
           className="w-64 rounded-full border border-gray-400 px-4 py-1 outline-none 
              transition-all duration-300 ease-in-out 
