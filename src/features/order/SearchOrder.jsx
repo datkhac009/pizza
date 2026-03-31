@@ -58,64 +58,41 @@ function SearchOrder() {
           onFocus={() => setShowDropdown(true)}
           className="w-64 rounded-full border border-gray-400 px-4 py-1 outline-none 
              transition-all duration-300 ease-in-out 
-             focus:w-[300px] focus:border-yellow-500 focus:ring-2 focus:ring-yellow-300 max-sm:w-44 max-sm:focus:w-[200px]"
+             focus:border-yellow-500 focus:ring-2 focus:ring-yellow-300 max-sm:w-44"
         />
       </form>
 
       {/* Dropdown recent orders */}
-      {showDropdown && recentOrders.length > 0 && (
-        <div className="absolute top-full left-1/2 z-50 mt-1 w-72 -translate-x-1/2 rounded-xl border border-yellow-200 bg-white shadow-xl">
-          <p className="border-b border-stone-100 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-stone-400">
+      {showDropdown && filtered.length > 0 && (
+        <div className="absolute top-full left-1/2 z-50 mt-1 w-72 -translate-x-1/2 rounded-xl border border-yellow-200 bg-white shadow-xl overflow-hidden">
+          <p className="border-b border-stone-100 bg-stone-50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-stone-500">
              Recent Orders
           </p>
           <ul>
-            {filtered.length > 0 ? (
-              filtered.map((order) => (
-                <li key={order.id}>
-                  <button
-                    type="button"
-                    onClick={() => handleSelectOrder(order.id)}
-                    className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-yellow-50"
-                  >
-                    <div>
-                      <span className="font-mono font-semibold text-stone-800">
-                        #{order.id}
-                      </span>
-                      {order.customer && (
-                        <span className="ml-2 text-sm text-stone-500">
-                          {order.customer}
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-xs text-stone-400">
-                      {formatDate(order.createdAt)}
+            {filtered.map((order) => (
+              <li key={order.id}>
+                <button
+                  type="button"
+                  onClick={() => handleSelectOrder(order.id)}
+                  className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-yellow-50 border-b border-stone-50 last:border-0"
+                >
+                  <div className="flex flex-col">
+                    <span className="font-mono font-semibold text-stone-800">
+                      #{order.id}
                     </span>
-                  </button>
-                </li>
-              ))
-            ) : (
-              <li className="px-4 py-3 text-sm text-stone-400">
-                No matching orders
+                    {order.customer && (
+                      <span className="text-xs text-stone-500">
+                        {order.customer}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs text-stone-400">
+                    {formatDate(order.createdAt)}
+                  </span>
+                </button>
               </li>
-            )}
+            ))}
           </ul>
-          <div className="border-t border-stone-100 px-4 py-2">
-            <p className="text-xs text-stone-400">
-               Tip: Type an order ID to search, or click a recent order above
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Dropdown khi chưa có lịch sử */}
-      {showDropdown && recentOrders.length === 0 && (
-        <div className="absolute top-full left-1/2 z-50 mt-1 w-64 -translate-x-1/2 rounded-xl border border-yellow-200 bg-white px-4 py-3 shadow-xl">
-          <p className="text-sm text-stone-500">
-             No recent orders found.
-          </p>
-          <p className="mt-1 text-xs text-stone-400">
-            Enter an order ID above to track your order.
-          </p>
         </div>
       )}
     </div>

@@ -13,6 +13,8 @@ import { MenuLoader } from "./features/menu/MenuLoader";
 import Order from "./features/order/Order";
 import { OrderLoader } from "./features/order/orderLoader";
 import { action as actionUpdateOrder } from "./features/order/UpdateOrder";
+import OrderHistory from "./features/order/OrderHistory";
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -36,6 +38,10 @@ const App = () => {
           path: "/order/new",
           element: <CreateOrder />,
           action: CreateActions,
+        },
+        {
+          path: "/order/history",
+          element: <OrderHistory />,
         },
         {
           path: "/order/:orderId",

@@ -223,8 +223,8 @@ export async function action({ request }) {
     customer: order.customer,
     createdAt: new Date().toISOString(),
   };
-  // Giữ tối đa 5 đơn hàng gần nhất
-  const updated = [newEntry, ...savedOrders].slice(0, 5);
+  // Giữ tối đa 10 đơn hàng gần nhất
+  const updated = [newEntry, ...savedOrders].slice(0, 10);
   localStorage.setItem("recentOrders", JSON.stringify(updated));
 
   // 7) Chuyển trang
