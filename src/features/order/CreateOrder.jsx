@@ -216,6 +216,17 @@ export async function action({ request }) {
   // 5) Clear cart (dispatch qua store đã export sẵn)
   store.dispatch(ClearCart());
 
-  // 6) Chuyển trang
+  // 6) Lưu orderId vào localStorage để người dùng có thể tra cứu lại
+  const savedOrders = JSON.parse(localStorage.getItem("recentOrders") || "[]");
+  const newEntry = {
+    id: newOrder.id,
+    customer: order.customer,
+    createdAt: new Date().toISOString(),
+  };
+  // Giữ tối đa 5 đơn hàng gần nhất
+  const updated = [newEntry, ...savedOrders].slice(0, 5);
+  localStorage.setItem("recentOrders", JSON.stringify(updated));
+
+  // 7) Chuyển trang
   return redirect(`/order/${newOrder.id}`);
 }
