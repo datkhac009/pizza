@@ -5,6 +5,7 @@ import Button from "../ui/Button";
 import Loading from "../ui/Loading";
 
 export default function UpdateOrder({ order }) {
+  console.log("1", order)
   const fetcher = useFetcher();
   const isSubmitting = fetcher.state === "submitting";
   if (fetcher.state === "loading") return <Loading />;
@@ -23,8 +24,8 @@ export default function UpdateOrder({ order }) {
 }
 
 export async function action({ request, params }) {
-  console.log("request data :", request);
-  console.log("params data :", params);
+  console.log("2 request data :", request);
+  console.log("3 params data :", params);
   const data = { priority: true };
   await updateOrder(params.orderId, data);
   return null;

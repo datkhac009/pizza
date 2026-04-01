@@ -57,6 +57,9 @@ const userSlice = createSlice({
         state.username = action.payload;
       },
     },
+    logout() {
+      return initialState;
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -74,6 +77,6 @@ const userSlice = createSlice({
         state.error = action.error?.message || "Failed to get position";
       }),
 });
-export const { setName, addName, setPhone, setAddress } = userSlice.actions;
+export const { setName, addName, setPhone, setAddress, logout } = userSlice.actions;
 
 export default userSlice.reducer;
